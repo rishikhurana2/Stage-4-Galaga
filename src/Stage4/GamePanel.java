@@ -32,8 +32,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     int velY = 5;
     int velX = 5;
     boolean gameOver = false;
+    double startTime = 0;
     public GamePanel() {
-        enemiesAmount *= 2;
+      //  enemiesAmount *= 2;
         t = new Timer(fps, this);
         s = new Ship(Stage4.width/2 - Ship.sideLength/2, Stage4.height/2 + Ship.sideLength/2);
         ems = new ArrayList<Enemy>();
@@ -41,6 +42,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < enemiesAmount; i++) {
             ems.add(new Enemy((int)(Math.random()*Stage4.width - 9) + 10, (int)(Math.random()*11) + 5));
         }
+        startTime = System.currentTimeMillis();
     }
 
     public void startGame() {
@@ -51,29 +53,34 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.black);
         g.fillRect(0,0, Stage4.width, Stage4.height);
         s.drawShip(g);
+        // for (Enemy e : ems) {
+        //     if (e.getHitbox().intersects(p.getHitbox())) {
+        //      //   System.out.println("hit");
+        //     }
+        // }
         for (Enemy e: ems) {
-         //   System.out.println(ems.size());
+     //   System.out.println(ems.size());
             e.drawEnemies(g);
         }
+        
         p.draw(g);
+        System.out.println(ems.size());
     }
     public void updateGameStage() {
         if (!gameOver) {
-        System.out.println(ems.size());
-        s.updateShip();
-        for (Enemy e: ems) {
-            e.update();
-        }    
-        p.update(s.getX(), s.getY());
-        for (int i = 0; i < ems.size(); i++) {
-            if (p.getHitbox().intersects(ems.get(i).getHitbox())) {
-                ems.remove(ems.get(i));
-            }
-            if (ems.get(i).getHitbox().intersects(s.getHitbox())) {
-                //gameOver = true;
-                System.out.println("hit");
-            }
-         } 
+            s.updateShip();
+            for (Enemy e: ems) {
+                e.update();
+                if (System.currentTimeMillis() - startTime >= 500) {
+                    if (e.getHitbox().intersects(p.getHitbox())) {
+                        e.setLifeStatus(false);
+                    }
+                    if (e.getHitbox().intersects(s.getHitbox())) {
+                        gameOver = true;
+                    }
+                }
+             }    
+            p.update(s.getX(), s.getY());
         }
     }   
     @Override

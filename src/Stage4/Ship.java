@@ -30,6 +30,7 @@ public class Ship {
         sideLength = 25;
         startTime = System.currentTimeMillis();
         hitbox = new Rectangle(x, y, sideLength, sideLength);
+        hitbox.setBounds(new Rectangle(x, y, sideLength, sideLength));
     }
     public void drawShip(Graphics g) {
         g.setColor(Color.red);
@@ -82,5 +83,11 @@ public class Ship {
     }
     public int getVX() {
         return vx;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
     }
 }

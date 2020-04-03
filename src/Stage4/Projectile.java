@@ -23,6 +23,7 @@ public class Projectile {
         width = 10;
         height = 15;
         hitbox = new Rectangle(x, y, width, height);
+        hitbox.setBounds(new Rectangle(x, y, width, height));
     }
     public void draw(Graphics g) {
         g.setColor(Color.CYAN);
@@ -38,8 +39,8 @@ public class Projectile {
     }
     public void shoot(int dx, int dy) {
         startTime = System.currentTimeMillis();
-        vx = dx;
-        vy = dy;
+        vx = (int)(dx);
+        vy = (int)(dy);
         // if (vx > 1) {
         //     vx /= 3;
         // }
