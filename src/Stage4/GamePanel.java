@@ -36,6 +36,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static int GAME_STAGE = 0;
 	int amountRemaining;
 	double winTime = 0;
+	static boolean left = false;
+	static boolean right = false;
+	static boolean down = false;
+	static boolean up = false;
+	boolean decreaseAmount = false;
 	public GamePanel() {
 		// enemiesAmount *= 2;
 		t = new Timer(fps, this);
@@ -108,7 +113,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		s.drawShip(g);
 		p.draw(g);
 		g.setFont(displayFont);
-		g.drawString("Amount Remaining: " + amountRemaining, 50, 50);
 		// for (Enemy e : ems) {
 		// if (e.getHitbox().intersects(p.getHitbox())) {
 		// // System.out.println("hit");
@@ -137,12 +141,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(new Font("Times New Roman", 0, 48));
 		if (System.currentTimeMillis() - winTime <= 5000) {	
 			g.setColor(Color.blue);
-			g.drawString("Nice, you Beat them all!", Stage4.width/2 - 250 , Stage4.height/2 - 50);
+			g.drawString("Nice, you beat enough!", Stage4.width/2 - 250 , Stage4.height/2 - 50);
 			g.drawString("You can now leave in peace", Stage4.width/2 - 280, Stage4.height/2);
 		}
 	}
 	public void updateGameStage() {
 		if (!gameOver) {
+			if (decreaseAmount) {
+				amountRemaining--;
+				decreaseAmount = false;
+			}
 			s.updateShip();
 			for (Enemy e : ems) {
 				e.update();
@@ -152,7 +160,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					}
 					if (e.getHitbox().intersects(p.getHitbox()) && !e.getHitbox().intersects(s.getHitbox())) {
 						e.setLifeStatus(false);
-						amountRemaining--;
+						decreaseAmount = true;
 					}
 					if (amountRemaining == 0) {
 						winTime = System.currentTimeMillis();
@@ -244,18 +252,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		if (GAME_STAGE == 0) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				up = true;
 				s.setVY(-velY);
 				s.setVX(0);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				down = true;
 				s.setVY(velY);
 				s.setVX(0);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				left = true;
 				s.setVX(-velX);
 				s.setVY(0);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				right = true;
 				s.setVX(velX);
 				s.setVY(0);
 			}

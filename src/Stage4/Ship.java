@@ -31,6 +31,8 @@ public class Ship {
         startTime = System.currentTimeMillis();
         hitbox = new Rectangle(x, y, sideLength, sideLength);
         hitbox.setBounds(new Rectangle(x, y, sideLength, sideLength));
+        this.x = startX;
+        this.y = startY;
     }
     public void drawShip(Graphics g) {
         g.setColor(Color.red);
@@ -47,13 +49,26 @@ public class Ship {
        double r = 25;
 
        //update location of circular path based on user input
-       startX += vx;
-       startY += vy;
-
+       if (x < Stage4.width-sideLength && x > 0 && y < Stage4.height - sideLength && y > 0 && GamePanel.GAME_STAGE != 2) {	
+    	   startX += vx;
+    	   startY += vy;
+       }  if (x > Stage4.width-sideLength && GamePanel.GAME_STAGE != 2) {
+    	  startX -= 5;
+       }  if (x < 0 && GamePanel.GAME_STAGE != 2) {
+    	   startX += 5;
+       }  if (y < 0 && GamePanel.GAME_STAGE != 2) {
+    	   startY += 5;
+       }  if (y > Stage4.height - sideLength*3 && GamePanel.GAME_STAGE != 2) {
+    	   startY -= 5;
+       }
+       if (GamePanel.GAME_STAGE == 2) {
+    	   startX += vx;
+    	   startY += vy;
+       }
        //circular path (depends on the time the program has been running)
-       x = startX - (int) r/2 + (int)(r * Math.cos(t));
-       y = startY - (int)(r * Math.sin(t));
-
+       	x = startX - (int) r/2 + (int)(r * Math.cos(t));
+       	y = startY - (int)(r * Math.sin(t));
+       	
        //calculate velocities through differential position values (dx = dx/dt, dy = dy/dt), v = <dx, dy>
        dx = x - prevX;
        prevX = x;
