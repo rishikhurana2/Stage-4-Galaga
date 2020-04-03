@@ -85,9 +85,9 @@ public class Ship {
         return vx;
     }
     public void setX(int x) {
-        this.x = x;
+        this.startX = x;
     }
     public void setY(int y) {
-        this.y = y;
+        this.startY = y;
     }
 }

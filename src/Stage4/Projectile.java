@@ -29,9 +29,9 @@ public class Projectile {
         g.setColor(Color.CYAN);
         g.fillRect(x, y, width, height);
         hitbox.setBounds(x, y, width, height);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.PINK);
-        g2d.draw(hitbox);
+     //   Graphics2D g2d = (Graphics2D) g;
+    //    g2d.setColor(Color.PINK);
+    //    g2d.draw(hitbox);
     }
     public void update(int sx, int sy) {
         x =(int)(sx + Ship.sideLength/2 - width/2 + vx * (System.currentTimeMillis() - startTime));
